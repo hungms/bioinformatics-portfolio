@@ -1,0 +1,122 @@
+@font-face
+{
+    font-family: 'Ailerons';
+    src: url('./fonts/subset-Ailerons-Regular.woff2') format('woff2'),
+        url('./fonts/subset-Ailerons-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*::selection
+{
+    /* color: #aaaaaa; */
+    background: #ffffff22;
+}
+
+html,
+body
+{
+    overflow: hidden;
+}
+
+.experience
+{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.credits
+{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #ffffff;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+}
+
+.credits a
+{
+    color: inherit;
+}
+
+.title
+{
+    position: absolute;
+    top: calc(50% - 14vmin / 2);
+    left: 0;
+    width: 100%;
+    color: #ffffff;
+    font-size: 14vmin;
+    text-transform: uppercase;
+    text-align: center;
+    outline: none;
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.subtitle
+{
+    position: absolute;
+    top: calc(50% + 14vmin / 2);
+    left: 0;
+    width: 100%;
+    color: #ffffff;
+    font-size: 4vmin;
+    text-align: center;
+    outline: none;
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.social-links
+{
+    position: absolute;
+    top: calc(50% + 14vmin / 2 + 16vmin);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 5vmin;
+    z-index: 2;
+}
+
+.social-link
+{
+    width: 6vmin;
+    height: 6vmin;
+    min-width: 24px;
+    min-height: 24px;
+    color: #ffffff;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.social-link svg
+{
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
+.social-link:hover
+{
+    opacity: 1;
+    transform: translateY(-2px);
+}
