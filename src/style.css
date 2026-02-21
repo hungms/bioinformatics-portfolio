@@ -41,40 +41,41 @@ body
 .experience
 {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
-    transform-origin: center center;
+    top: 50%;
+    left: 50%;
+    width: 70vw;
+    height: 70vh;
+    transform: translate(-50%, -50%);
     transition: transform 0.9s ease, filter 0.9s ease;
 }
 
 body.panel-open .experience
 {
-    transform-origin: right center;
-    transform: translateX(48vw) scale(1.45);
+    transform: translate(calc(-50% + 26vw), -50%);
     filter: brightness(0.95);
 }
 
 body.panel-open-tl .experience
 {
-    transform: translateX(52vw) translateY(12vh) scale(1.45);
+    transform: translate(calc(-50% + 26vw), calc(-50% + 10vh));
     filter: brightness(0.98) saturate(1.05);
 }
 
 body.panel-open-tr .experience
 {
-    transform: translateX(44vw) translateY(12vh) scale(1.45);
+    transform: translate(calc(-50% + 26vw), calc(-50% + 10vh));
     filter: brightness(0.98) saturate(1.05);
 }
 
 body.panel-open-bl .experience
 {
-    transform: translateX(52vw) translateY(-12vh) scale(1.45);
+    transform: translate(calc(-50% + 26vw), calc(-50% - 10vh));
     filter: brightness(0.98) saturate(1.05);
 }
 
 body.panel-open-br .experience
 {
-    transform: translateX(44vw) translateY(-12vh) scale(1.45);
+    transform: translate(calc(-50% + 26vw), calc(-50% - 10vh));
     filter: brightness(0.98) saturate(1.05);
 }
 
@@ -133,23 +134,13 @@ body.panel-open
     text-shadow: 0 0 16px #77ccff88;
 }
 
-.title,
-.subtitle,
-.social-links,
-.credits,
-.callout-lines,
-.target-locks
+.credits
 {
     opacity: 0;
     transition: opacity 0.45s ease;
 }
 
-body.is-loaded .title,
-body.is-loaded .subtitle,
-body.is-loaded .social-links,
-body.is-loaded .credits,
-body.is-loaded .callout-lines,
-body.is-loaded .target-locks
+body.is-loaded .credits
 {
     opacity: 1;
 }
@@ -204,13 +195,7 @@ body.panel-open .target-locks
     pointer-events: none;
 }
 
-body.panel-open .title,
-body.panel-open .subtitle,
-body.panel-open .social-links
-{
-    opacity: 0 !important;
-    pointer-events: none;
-}
+/* hero-left handles its own hide via body.panel-open .hero-left */
 
 .callout
 {
@@ -280,23 +265,24 @@ body.panel-open .callout
 body.panel-open .callout.is-expanded
 {
     position: fixed;
-    inset: 0;
-    width: 100vw;
+    left: 0;
+    top: 0;
+    width: 50vw;
     height: 100vh;
     border-radius: 0;
     z-index: 12;
     opacity: 1;
     pointer-events: auto;
-    animation: none;
     transform: none;
     text-align: left;
-    font-size: clamp(42px, 5vw, 72px);
-    line-height: 1.15;
-    padding: 10vh 8vw;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 10vh 5vw 10vh 6vw;
     background: #000000;
     border-color: rgba(255, 255, 255, 0.92);
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.18);
-    cursor: pointer;
+    cursor: default;
+    overflow: hidden;
     animation: calloutExpandToFullscreen 1.05s cubic-bezier(0.2, 0.72, 0.1, 1) forwards;
 }
 
@@ -529,10 +515,10 @@ body.panel-open .callout.is-expanded
     {
         left: 0;
         top: 0;
-        width: 100vw;
+        width: 50vw;
         height: 100vh;
         border-radius: 0;
-        padding: 10vh 8vw;
+        padding: 10vh 5vw 10vh 6vw;
     }
 }
 
@@ -548,61 +534,213 @@ body.panel-open .callout.is-expanded
     to { transform: rotate(-360deg); }
 }
 
+/* ─── Panel close button ─────────────────────────────────── */
+
+.panel-close
+{
+    position: fixed;
+    top: 24px;
+    left: calc(50vw - 52px);
+    z-index: 14;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease 0s, background 0.2s ease, border-color 0.2s ease;
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+}
+
+.panel-close:hover
+{
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+}
+
+body.panel-open .panel-close
+{
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.35s ease 0.8s, background 0.2s ease, border-color 0.2s ease;
+}
+
+/* ─── Popup page content ─────────────────────────────────── */
+
+.popup-page
+{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.25) transparent;
+    color: #ffffff;
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-size: clamp(15px, 1.35vw, 22px);
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    animation: popupPageFadeIn 0.5s ease 0.65s both;
+}
+
+.popup-page h2
+{
+    margin: 0;
+    font-size: clamp(28px, 3vw, 52px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
+    line-height: 1.1;
+}
+
+.popup-page h3
+{
+    margin: 0;
+    font-size: clamp(18px, 1.9vw, 32px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.88;
+}
+
+.popup-page p
+{
+    margin: 0;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-size: clamp(13px, 1.1vw, 18px);
+    letter-spacing: 0.02em;
+    opacity: 0.82;
+}
+
+.popup-page ul,
+.popup-page ol
+{
+    padding-left: 1.4em;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-size: clamp(13px, 1.1vw, 18px);
+    letter-spacing: 0.02em;
+    opacity: 0.82;
+}
+
+.popup-page-loading
+{
+    font-size: clamp(16px, 1.5vw, 24px);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+@keyframes popupPageFadeIn
+{
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ─── Hero left panel ────────────────────────────────────── */
+
+.hero-left
+{
+    position: fixed;
+    left: 4vw;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.4vmin;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+}
+
+body.is-loaded .hero-left
+{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.panel-open .hero-left
+{
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
 .title
 {
-    position: absolute;
-    top: calc(50% - 14vmin / 2 - var(--hero-shift-up));
-    left: 0;
+    position: relative;
+    top: auto;
+    left: auto;
     width: 100%;
     color: #ffffff;
-    font-size: 14vmin;
+    font-size: 6.8vmin;
     text-transform: uppercase;
-    text-align: center;
+    text-align: left;
     outline: none;
     font-family: 'Ailerons', Helvetica, Arial, sans-serif;
     font-weight: 400;
+    line-height: 1.05;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+    opacity: 1;
+    transition: none;
 }
 
 .subtitle
 {
-    position: absolute;
-    top: calc(50% + 14vmin / 2 - var(--hero-shift-up));
-    left: 0;
+    position: relative;
+    top: auto;
+    left: auto;
     width: 100%;
     color: #ffffff;
-    font-size: 3.5vmin;
-    text-align: center;
+    font-size: 2.3vmin;
+    text-align: left;
     outline: none;
     font-family: 'Ailerons', Helvetica, Arial, sans-serif;
     font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    text-shadow: none;
+    opacity: 0.75;
+    transition: none;
 }
 
 .social-links
 {
-    position: absolute;
-    top: calc(50% + 14vmin / 2 + 16vmin - var(--hero-shift-up));
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
     display: flex;
     align-items: center;
-    gap: 5vmin;
+    justify-content: flex-start;
+    gap: 3.5vmin;
     z-index: 2;
+    opacity: 1;
+    transition: none;
 }
 
 .social-link
 {
-    width: 5vmin;
-    height: 5vmin;
-    min-width: 24px;
-    min-height: 24px;
+    width: 3.5vmin;
+    height: 3.5vmin;
+    min-width: 18px;
+    min-height: 18px;
     color: #ffffff;
-    opacity: 0.85;
+    opacity: 0.7;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
@@ -618,4 +756,98 @@ body.panel-open .callout.is-expanded
 {
     opacity: 1;
     transform: translateY(-2px);
+}
+
+/* ─── Side menu ──────────────────────────────────────────── */
+
+.side-menu
+{
+    position: fixed;
+    right: 4vw;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+}
+
+body.is-loaded .side-menu
+{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.panel-open .side-menu
+{
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.side-menu ul
+{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+}
+
+.side-menu li
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.side-menu li::after
+{
+    content: '';
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.35);
+    transition: width 0.25s ease, background 0.25s ease;
+    flex-shrink: 0;
+}
+
+.side-menu li:hover::after
+{
+    width: 28px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.side-menu button
+{
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.4vw, 20px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 9px 0;
+    transition: color 0.22s ease, text-shadow 0.22s ease, letter-spacing 0.22s ease;
+    line-height: 1;
+}
+
+.side-menu button:hover,
+.side-menu button:focus-visible
+{
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.14em;
+    outline: none;
+}
+
+/* ─── Hide corner callouts / lines / locks (replaced by side menu) ── */
+
+.callouts,
+.callout-lines,
+.target-locks
+{
+    display: none;
 }

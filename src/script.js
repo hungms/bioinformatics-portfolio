@@ -276,6 +276,10 @@ expandableCalloutKeys.forEach((_key) =>
 
     entry.card.addEventListener('click', () =>
     {
+        if(entry.card.classList.contains('is-expanded'))
+        {
+            return
+        }
         if(!entry.card.classList.contains('is-visible'))
         {
             return
@@ -292,6 +296,20 @@ expandableCalloutKeys.forEach((_key) =>
         }
     })
 })
+
+document.querySelectorAll('.side-menu [data-menu]').forEach((_btn) =>
+{
+    _btn.addEventListener('click', () =>
+    {
+        void openExpandedCallout(_btn.dataset.menu)
+    })
+})
+
+const panelCloseBtn = document.querySelector('.panel-close')
+if(panelCloseBtn)
+{
+    panelCloseBtn.addEventListener('click', closeExpandedCallout)
+}
 
 window.addEventListener('keydown', (_event) =>
 {
