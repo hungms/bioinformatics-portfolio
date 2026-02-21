@@ -8,6 +8,38 @@ const experience = new Experience({
 
 const loaderCircle = document.querySelector('.loader-circle')
 const loaderPercent = document.querySelector('.loader-percent')
+const ukTimeEl = document.querySelector('.uk-time')
+const ukTimeValueEl = document.querySelector('.uk-time-value')
+
+const ukTimeTzFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    timeZoneName: 'short'
+})
+
+const ukTimeHMFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+})
+
+const tickUkTime = () =>
+{
+    if(ukTimeValueEl)
+    {
+        const now = new Date()
+        const tzParts = ukTimeTzFormatter.formatToParts(now)
+        const tzName = (tzParts.find((_p) => _p.type === 'timeZoneName') || {}).value || 'GMT'
+        const rawTime = ukTimeHMFormatter.format(now)
+        const formatted = rawTime
+            .replace(/\bam\b/i, 'a.m.')
+            .replace(/\bpm\b/i, 'p.m.')
+        ukTimeValueEl.textContent = `${tzName} ${formatted}`
+    }
+    window.setTimeout(tickUkTime, 1000 - (Date.now() % 1000))
+}
+
+tickUkTime()
 const calloutSvg = document.querySelector('.callout-lines')
 const calloutMap = {
     tl: {
