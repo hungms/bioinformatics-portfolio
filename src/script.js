@@ -64,6 +64,15 @@ const calloutMap = {
     }
 }
 const calloutRevealOrder = ['tl', 'tr', 'br', 'bl']
+const expandableCalloutKeys = ['tl', 'tr', 'bl', 'br']
+const popupPageByKey = {
+    tl: '/popup-pages/tl.html',
+    tr: '/popup-pages/tr.html',
+    bl: '/popup-pages/bl.html',
+    br: '/popup-pages/br.html'
+}
+const popupPageCache = {}
+let expandedCalloutKey = null
 
 const updateLoader = (_progress) =>
 {
@@ -131,6 +140,166 @@ const revealCalloutsClockwise = () =>
         }
     })
 }
+
+const setBackgroundAutoRotate = (_enabled) =>
+{
+    const controls = experience.camera && experience.camera.modes && experience.camera.modes.debug
+        ? experience.camera.modes.debug.orbitControls
+        : null
+
+    if(!controls)
+    {
+        return
+    }
+
+    controls.enabled = true
+    controls.autoRotate = _enabled
+    controls.autoRotateSpeed = _enabled ? 0.18 : 0
+}
+
+const loadPopupPage = async (_key) =>
+{
+    const path = popupPageByKey[_key]
+    if(!path)
+    {
+        return null
+    }
+
+    if(popupPageCache[path])
+    {
+        return popupPageCache[path]
+    }
+
+    const response = await fetch(path, { cache: 'no-cache' })
+    if(!response.ok)
+    {
+        throw new Error(`Failed to load ${path}`)
+    }
+
+    const html = await response.text()
+    popupPageCache[path] = html
+    return html
+}
+
+const closeExpandedCallout = () =>
+{
+    if(!expandedCalloutKey)
+    {
+        return
+    }
+
+    const activeEntry = calloutMap[expandedCalloutKey]
+    if(activeEntry && activeEntry.card)
+    {
+        activeEntry.card.classList.remove('is-expanded')
+        if(activeEntry.collapsedHTML !== undefined)
+        {
+            activeEntry.card.innerHTML = activeEntry.collapsedHTML
+        }
+    }
+
+    expandedCalloutKey = null
+    document.body.classList.remove('panel-open')
+    document.body.classList.remove('panel-open-tl')
+    document.body.classList.remove('panel-open-tr')
+    document.body.classList.remove('panel-open-bl')
+    document.body.classList.remove('panel-open-br')
+    setBackgroundAutoRotate(false)
+}
+
+const openExpandedCallout = async (_key) =>
+{
+    const entry = calloutMap[_key]
+    if(!entry || !entry.card)
+    {
+        return
+    }
+
+    if(expandedCalloutKey === _key)
+    {
+        closeExpandedCallout()
+        return
+    }
+
+    if(expandedCalloutKey)
+    {
+        closeExpandedCallout()
+    }
+
+    const bounds = entry.card.getBoundingClientRect()
+    entry.card.style.setProperty('--expand-left', `${bounds.left}px`)
+    entry.card.style.setProperty('--expand-top', `${bounds.top}px`)
+    entry.card.style.setProperty('--expand-width', `${bounds.width}px`)
+    entry.card.style.setProperty('--expand-height', `${bounds.height}px`)
+
+    expandedCalloutKey = _key
+    entry.card.classList.add('is-expanded')
+    document.body.classList.add('panel-open')
+    document.body.classList.remove('panel-open-tl')
+    document.body.classList.remove('panel-open-tr')
+    document.body.classList.remove('panel-open-bl')
+    document.body.classList.remove('panel-open-br')
+    document.body.classList.add(`panel-open-${_key}`)
+    setBackgroundAutoRotate(true)
+
+    if(entry.collapsedHTML === undefined)
+    {
+        entry.collapsedHTML = entry.card.innerHTML
+    }
+
+    entry.card.innerHTML = '<div class="popup-page popup-page-loading">Loading...</div>'
+
+    try
+    {
+        const pageHtml = await loadPopupPage(_key)
+        if(expandedCalloutKey === _key && pageHtml)
+        {
+            entry.card.innerHTML = `<div class="popup-page">${pageHtml}</div>`
+        }
+    }
+    catch(error)
+    {
+        if(expandedCalloutKey === _key)
+        {
+            entry.card.innerHTML = '<div class="popup-page popup-page-loading">Could not load page content.</div>'
+        }
+    }
+}
+
+expandableCalloutKeys.forEach((_key) =>
+{
+    const entry = calloutMap[_key]
+    if(!entry || !entry.card)
+    {
+        return
+    }
+
+    entry.card.addEventListener('click', () =>
+    {
+        if(!entry.card.classList.contains('is-visible'))
+        {
+            return
+        }
+        void openExpandedCallout(_key)
+    })
+
+    entry.card.addEventListener('keydown', (_event) =>
+    {
+        if(_event.key === 'Enter' || _event.key === ' ')
+        {
+            _event.preventDefault()
+            void openExpandedCallout(_key)
+        }
+    })
+})
+
+window.addEventListener('keydown', (_event) =>
+{
+    if(_event.key === 'Escape')
+    {
+        closeExpandedCallout()
+    }
+})
 
 updateLoader(0)
 

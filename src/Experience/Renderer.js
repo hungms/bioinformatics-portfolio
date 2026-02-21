@@ -32,7 +32,7 @@ export default class Renderer
 
     setInstance()
     {
-        this.clearColor = '#010101'
+        this.clearColor = '#000000'
 
         // Renderer
         this.instance = new THREE.WebGLRenderer({
@@ -88,11 +88,11 @@ export default class Renderer
         this.postProcess.unrealBloomPass.enabled = true
 
         this.postProcess.unrealBloomPass.tintColor = {}
-        this.postProcess.unrealBloomPass.tintColor.value = '#7f00ff'
+        this.postProcess.unrealBloomPass.tintColor.value = '#ffffff'
         this.postProcess.unrealBloomPass.tintColor.instance = new THREE.Color(this.postProcess.unrealBloomPass.tintColor.value)
         
         this.postProcess.unrealBloomPass.compositeMaterial.uniforms.uTintColor = { value: this.postProcess.unrealBloomPass.tintColor.instance }
-        this.postProcess.unrealBloomPass.compositeMaterial.uniforms.uTintStrength = { value: 0.15 }
+        this.postProcess.unrealBloomPass.compositeMaterial.uniforms.uTintStrength = { value: 0.0 }
         this.postProcess.unrealBloomPass.compositeMaterial.fragmentShader = `
 varying vec2 vUv;
 uniform sampler2D blurTexture1;
