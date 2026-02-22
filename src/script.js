@@ -350,11 +350,14 @@ expandableCalloutKeys.forEach((_key) =>
     })
 })
 
+const menuKeyMap = { profile: 'tl', softwares: 'tr', pipelines: 'bl', projects: 'br' }
+
 document.querySelectorAll('.side-menu [data-menu]').forEach((_btn) =>
 {
     _btn.addEventListener('click', () =>
     {
-        void openExpandedCallout(_btn.dataset.menu)
+        const key = menuKeyMap[_btn.dataset.menu] || _btn.dataset.menu
+        void openExpandedCallout(key)
     })
 })
 
