@@ -411,6 +411,11 @@ const smoothLoaderTick = () =>
         {
             document.body.classList.add('is-loaded')
             revealCalloutsClockwise()
+            // Once all intro animations finish, switch to instant transitions
+            window.setTimeout(() =>
+            {
+                document.body.classList.add('hero-animated')
+            }, 4200)
         }, 220)
         return
     }

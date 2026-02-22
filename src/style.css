@@ -618,7 +618,7 @@ body.panel-open .panel-close
 {
     opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.35s ease 0.85s, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition: opacity 0.45s ease 0.85s, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 /* ─── Popup page content ─────────────────────────────────── */
@@ -987,7 +987,7 @@ body.panel-open .panel-close
     gap: 2.4vmin;
     z-index: 5;
     opacity: 0;
-    transition: opacity 0.45s ease;
+    transition: opacity 0.3s ease;
     pointer-events: none;
 }
 
@@ -1001,6 +1001,33 @@ body.panel-open .hero-left
 {
     opacity: 0 !important;
     pointer-events: none;
+}
+
+@keyframes heroItemIn
+{
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes heroSubtitleIn
+{
+    from { opacity: 0;    transform: translateY(20px); }
+    to   { opacity: 0.75; transform: translateY(0);    }
+}
+
+body.is-loaded .title
+{
+    animation: heroItemIn 1.75s ease 0.05s both;
+}
+
+body.is-loaded .subtitle
+{
+    animation: heroSubtitleIn 1.75s ease 0.65s both;
+}
+
+body.is-loaded .social-links
+{
+    animation: heroItemIn 1.75s ease 1.25s both;
 }
 
 .title
@@ -1021,8 +1048,6 @@ body.panel-open .hero-left
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
-    opacity: 1;
-    transition: none;
 }
 
 .subtitle
@@ -1042,8 +1067,6 @@ body.panel-open .hero-left
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-shadow: none;
-    opacity: 0.75;
-    transition: none;
 }
 
 .social-links
@@ -1057,8 +1080,6 @@ body.panel-open .hero-left
     justify-content: flex-start;
     gap: 3.5vmin;
     z-index: 2;
-    opacity: 1;
-    transition: none;
 }
 
 .social-link
@@ -1105,12 +1126,27 @@ body.is-loaded .side-menu
 {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 1.75s ease 1.75s;
+}
+
+/* After intro animations finish — fast re-appear on panel close */
+body.hero-animated .side-menu
+{
+    transition: opacity 0.45s ease 0s;
+}
+
+body.hero-animated .title,
+body.hero-animated .subtitle,
+body.hero-animated .social-links
+{
+    animation: none;
 }
 
 body.panel-open .side-menu
 {
     opacity: 0 !important;
     pointer-events: none;
+    transition: opacity 0s ease;
 }
 
 .side-menu ul
