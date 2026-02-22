@@ -321,7 +321,7 @@ body.panel-open .callout.is-expanded
     font-size: inherit;
     line-height: inherit;
     padding: 10vh 5vw 10vh 6vw;
-    background: transparent;
+    background: linear-gradient(to right, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.82) 20%, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.10) 100%);
     border-color: transparent;
     box-shadow: none;
     cursor: default;
@@ -333,7 +333,7 @@ body.panel-open .callout.is-expanded
 .popup-page h2
 {
     margin: 0 0 22px;
-    font-size: clamp(34px, 3.6vw, 58px);
+    font-size: clamp(34px, 3.5vw, 48px);
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -566,7 +566,7 @@ body.panel-open .callout.is-expanded
         height: 100vh;
         border-radius: 0;
         padding: 10vh 5vw 10vh 6vw;
-        background: transparent;
+        background: linear-gradient(to right, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.82) 20%, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.10) 100%);
     }
 }
 
@@ -668,7 +668,7 @@ body.panel-open .panel-close
 }
 
 /* Non-card pages (Profile, Projects): body content scrolls, title stays fixed */
-.popup-page:not(:has(.sw-wrap)) > *:not(h2)
+.popup-page:not(:has(.sw-wrap)):not(:has(.tl-wrap)) > *:not(h2)
 {
     flex: 1;
     overflow-y: auto;
@@ -677,7 +677,38 @@ body.panel-open .panel-close
     min-height: 0;
 }
 
-.popup-page:not(:has(.sw-wrap)) > *:not(h2)::-webkit-scrollbar
+.popup-page:not(:has(.sw-wrap)):not(:has(.tl-wrap)) > *:not(h2)::-webkit-scrollbar
+{
+    display: none;
+}
+
+/* ── Timeline fade wrapper — this is the scroll container ─────────────────── */
+.tl-wrap
+{
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Mask fades stay pinned to viewport edges regardless of scroll */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+    );
+}
+
+.tl-wrap::-webkit-scrollbar
 {
     display: none;
 }
@@ -799,6 +830,14 @@ body.panel-open .panel-close
     opacity: 0;
 }
 
+/* Timeline-specific scroll hint — override sw-scroll-hint width/align so it centres over the timeline */
+.tl-scroll-hint
+{
+    width: 100%;
+    align-self: center;
+    bottom: 4px;
+}
+
 @keyframes swHintBounce
 {
     0%, 100% { transform: translateY(0);   }
@@ -913,6 +952,12 @@ body.panel-open .panel-close
     position: relative;
     display: flex;
     flex-direction: column;
+    width: 80%;
+    max-width: 720px;
+    margin: 0 auto;
+    /* No fixed height — let content determine height so ::before line spans all entries */
+    padding-top: 8vh;
+    padding-bottom: 80px;  /* breathing room below last entry, clears scroll hint */
 }
 
 /* continuous glowing connector line */
@@ -920,15 +965,15 @@ body.panel-open .panel-close
 {
     content: '';
     position: absolute;
-    left: calc(clamp(36px, 3.4vw, 56px) + 11px);
+    left: calc(clamp(56px, 5.2vw, 84px) + 11px);
     top: 10px;
-    bottom: 10px;
-    width: 1px;
+    bottom: 50px;
+    width: 2px;
     background: linear-gradient(
         to bottom,
         transparent,
         rgba(255, 255, 255, 0.5) 8%,
-        rgba(255, 255, 255, 0.5) 92%,
+        rgba(255, 255, 255, 0.5) 98%,
         transparent
     );
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
@@ -937,9 +982,53 @@ body.panel-open .panel-close
 .tl-item
 {
     display: grid;
-    grid-template-columns: clamp(36px, 3.4vw, 56px) 24px 1fr;
+    grid-template-columns: clamp(56px, 5.2vw, 84px) 24px 1fr;
     align-items: start;
     padding-bottom: clamp(20px, 2.2vh, 34px);
+    /* Scale origin = dot centre, so dot stays on the vertical line during hover */
+    transform-origin: calc(clamp(56px, 5.2vw, 84px) + 12px) center;  /* 12px = centre of 24px dot column */
+    transition: transform 0.25s ease;
+    cursor: default;
+}
+
+.tl-item:hover
+{
+    transform: scale(1.1);
+}
+
+.tl-item:hover .tl-year
+{
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 700;
+    transition: color 0.25s ease, font-weight 0s;
+}
+
+.tl-item:hover .tl-dot
+{
+    background: #ffffff;
+    transform: scale(1.75);
+    animation: dotRadiantWave 1.6s ease-in-out infinite;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+@keyframes dotRadiantWave
+{
+    0%, 100%
+    {
+        box-shadow:
+            0 0 0 4px  rgba(255, 255, 255, 0.15),
+            0 0 12px   rgba(255, 255, 255, 0.80),
+            0 0 28px   rgba(255, 255, 255, 0.40),
+            0 0 50px   rgba(200, 220, 255, 0.25);
+    }
+    50%
+    {
+        box-shadow:
+            0 0 0 8px  rgba(255, 255, 255, 0.28),
+            0 0 24px   rgba(255, 255, 255, 1.00),
+            0 0 52px   rgba(255, 255, 255, 0.70),
+            0 0 90px   rgba(200, 220, 255, 0.55);
+    }
 }
 
 /* year + dot share their column via display:contents */
@@ -952,28 +1041,31 @@ body.panel-open .panel-close
 {
     grid-column: 1;
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
-    font-size: clamp(13px, 1.1vw, 17px);
+    font-size: clamp(17px, 1.55vw, 23px);
+    font-weight: 700;
     letter-spacing: 0.06em;
     color: rgba(255, 255, 255, 0.42);
-    padding-top: 3px;
+    padding-top: 0;
+    line-height: 1;
     text-align: right;
-    padding-right: clamp(10px, 1vw, 16px);
+    padding-right: clamp(18px, 1.8vw, 30px);
     white-space: nowrap;
 }
 
 .tl-dot
 {
     grid-column: 2;
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.92);
     box-shadow:
-        0 0 0 3px rgba(255, 255, 255, 0.10),
-        0 0 10px rgba(255, 255, 255, 0.65),
-        0 0 20px rgba(255, 255, 255, 0.28);
-    margin-top: 5px;
+        0 0 0 4px rgba(255, 255, 255, 0.10),
+        0 0 12px rgba(255, 255, 255, 0.65),
+        0 0 24px rgba(255, 255, 255, 0.28);
+    margin-top: 1px;   /* align dot centre with year cap-height centre */
     justify-self: center;
+    transition: box-shadow 0.25s ease, background 0.25s ease;
     position: relative;
     z-index: 1;
     flex-shrink: 0;
@@ -991,17 +1083,18 @@ body.panel-open .panel-close
 .tl-role
 {
     font-family: 'Ailerons', Helvetica, Arial, sans-serif;
-    font-size: clamp(16px, 1.55vw, 24px);
+    font-size: clamp(20px, 2.3vw, 32px);
     letter-spacing: 0.06em;
     color: rgba(255, 255, 255, 0.95);
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.32);
-    line-height: 1.3;
+    line-height: 1;       /* remove half-leading so top of role aligns with year & dot */
+    margin-bottom: 4px;   /* restore spacing below the title line */
 }
 
 .tl-org
 {
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
-    font-size: clamp(13px, 1.1vw, 17px);
+    font-size: clamp(12px, 1.35vw, 20px);
     letter-spacing: 0.04em;
     color: rgba(255, 255, 255, 0.42);
     margin-bottom: 4px;
@@ -1010,7 +1103,7 @@ body.panel-open .panel-close
 .tl-desc
 {
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
-    font-size: clamp(14px, 1.15vw, 18px);
+    font-size: clamp(20px, 1.9vw, 28px);
     color: rgba(255, 255, 255, 0.60);
     line-height: 1.6;
     letter-spacing: 0.02em;
@@ -1132,7 +1225,7 @@ body.is-loaded .social-links
     font-size: 2.7vmin;
     text-align: left;
     outline: none;
-    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
     font-weight: 400;
     line-height: 1.55;
     letter-spacing: 0.06em;
@@ -1261,7 +1354,7 @@ body.panel-open .side-menu
     border: none;
     cursor: pointer;
     font-family: 'Ailerons', Helvetica, Arial, sans-serif;
-    font-size: clamp(14px, 1.6vw, 23px);
+    font-size: clamp(16px, 1.8vw, 30px);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-align: right;

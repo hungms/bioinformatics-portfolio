@@ -1,5 +1,6 @@
 <h2>Profile</h2>
 
+<div class="tl-wrap">
 <div class="timeline">
 
     <div class="tl-item">
@@ -74,4 +75,25 @@
         </div>
     </div>
 
+    <!-- scroll indicator (sticky to bottom of visible timeline) -->
+    <div class="sw-scroll-hint tl-scroll-hint" aria-hidden="true">
+        <span class="sw-scroll-hint-text">Scroll</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </div>
+
 </div>
+</div>
+
+<script>
+(function () {
+    const wrap = document.querySelector('.tl-wrap')
+    const hint = document.querySelector('.tl-scroll-hint')
+    if (!wrap || !hint) return
+    wrap.addEventListener('scroll', function () {
+        if (wrap.scrollTop > 20) hint.classList.add('sw-hint-hidden')
+        else hint.classList.remove('sw-hint-hidden')
+    }, { passive: true })
+})()
+</script>
