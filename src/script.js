@@ -509,3 +509,118 @@ if(experience.resources)
         resourcesReady = true
     })
 }
+
+// ─── 3D Spinning Antibody (IgG) ──────────────────────────────────────────────
+;(() =>
+{
+    const abCanvas = document.getElementById('antibody-canvas')
+    if(!abCanvas) return
+
+    const W = 70, H = 80
+
+    const abRenderer = new THREE.WebGLRenderer({ canvas: abCanvas, alpha: true, antialias: true })
+    abRenderer.setSize(W, H)
+    abRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    const abScene = new THREE.Scene()
+    const abCamera = new THREE.PerspectiveCamera(38, W / H, 0.1, 50)
+    abCamera.position.set(0, 0, 6)
+
+    // Lighting — soft white key + gentle fill + cool rim
+    abScene.add(new THREE.AmbientLight(0x888899, 1.2))
+    const dl1 = new THREE.DirectionalLight(0xffffff, 2.4)
+    dl1.position.set(3, 5, 5)
+    abScene.add(dl1)
+    const dl2 = new THREE.DirectionalLight(0xaabbcc, 0.9)
+    dl2.position.set(-3, -1, 3)
+    abScene.add(dl2)
+    const rim = new THREE.DirectionalLight(0xddeeff, 0.6)
+    rim.position.set(0, 0, -5)
+    abScene.add(rim)
+
+    // Single white material for everything — subtle grey shading for depth
+    const abMat = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        emissive: 0x222233,
+        specular: 0xffffff,
+        shininess: 120
+    })
+
+    const abGroup = new THREE.Group()
+    abScene.add(abGroup)
+
+    // All coordinates relative to the hinge/fork at y = 0.
+    const SEG = 32   // radial segments — smooth round cross-section
+
+    // Helper: rounded-end "capsule" built from CylinderGeometry + two SphereGeometry caps.
+    // Both caps share the same material and radius, so the join is seamless.
+    // totalLen = full end-to-end length (caps included).
+    const makeCapsule = (r, totalLen, mat, parent, x, y, z) =>
+    {
+        const cylLen = Math.max(0, totalLen - 2 * r)
+        const grp = new THREE.Group()
+        grp.position.set(x, y, z)
+
+        // Cylindrical body
+        grp.add(Object.assign(
+            new THREE.Mesh(new THREE.CylinderGeometry(r, r, cylLen, SEG), mat)
+        ))
+        // Top dome
+        const top = new THREE.Mesh(new THREE.SphereGeometry(r, SEG, 16), mat)
+        top.position.set(0, cylLen / 2, 0)
+        grp.add(top)
+        // Bottom dome
+        const bot = new THREE.Mesh(new THREE.SphereGeometry(r, SEG, 16), mat)
+        bot.position.set(0, -cylLen / 2, 0)
+        grp.add(bot)
+
+        parent.add(grp)
+        return grp
+    }
+
+    // ── Fc region: TWO parallel heavy-chain tubes going straight down ────────
+    const fcR   = 0.14
+    const fcLen = 1.55
+    const fcSep = 0.34
+    ;[-1, 1].forEach(side =>
+        makeCapsule(fcR, fcLen, abMat, abGroup, side * fcSep / 2, -fcLen / 2, 0)
+    )
+
+    // ── Fab arms: heavy-chain + light-chain capsule per side ─────────────────
+    const fabR     = 0.16
+    const fabLen   = 1.45
+    const fabAngle = Math.PI / 4
+
+    const lcR    = 0.11
+    const lcLen  = 1.00
+    const lcOffX = 0.38
+
+    ;[-1, 1].forEach(side =>
+    {
+        const armGrp = new THREE.Group()
+        armGrp.rotation.z = -side * fabAngle
+        abGroup.add(armGrp)
+
+        // Heavy-chain Fab — centred so it spans local y = 0 → +fabLen
+        makeCapsule(fabR, fabLen, abMat, armGrp, 0, fabLen / 2, 0)
+
+        // Light-chain — offset outward in arm's local X
+        makeCapsule(lcR, lcLen, abMat, armGrp, side * lcOffX, lcLen / 2 + 0.15, 0)
+    })
+
+    // ── Centre the group vertically ──────────────────────────────────────────
+    //   arm tips: fabLen * cos(45°) ≈ +1.03
+    //   Fc base:  −fcLen            = −1.55
+    //   midpoint: (1.03 − 1.55) / 2 ≈ −0.26
+    abGroup.position.y = 0.26
+
+    // ── Render loop ──────────────────────────────────────────────────────────
+    const abAnimate = () =>
+    {
+        requestAnimationFrame(abAnimate)
+        abGroup.rotation.y += 0.012
+        abGroup.rotation.x = Math.sin(Date.now() * 0.0005) * 0.18
+        abRenderer.render(abScene, abCamera)
+    }
+    abAnimate()
+})()

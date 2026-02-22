@@ -69,13 +69,13 @@ body.panel-open-tr .experience
 
 body.panel-open-bl .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% - 12vh)) scale(3);
+    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
 body.panel-open-br .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% - 12vh)) scale(3);
+    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
@@ -910,4 +910,47 @@ body.panel-open .side-menu
 .target-locks
 {
     display: none;
+}
+
+/* ─── 3D Antibody widget ─────────────────────────────────────────── */
+
+.ab-widget
+{
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+
+body.is-loaded .ab-widget
+{
+    opacity: 1;
+}
+
+
+#antibody-canvas
+{
+    display: block;
+    flex-shrink: 0;
+    width: 70px;
+    height: 80px;
+    filter: drop-shadow(0 0 8px rgba(180, 160, 255, 0.5));
+}
+
+.ab-name
+{
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.4vw, 18px);
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    white-space: nowrap;
 }
