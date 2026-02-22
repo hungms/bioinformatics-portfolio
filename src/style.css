@@ -51,31 +51,31 @@ body
 
 body.panel-open .experience
 {
-    transform: translate(calc(-50% + 68vw), -50%) scale(3);
+    transform: translate(calc(-50% + 52vw), -50%) scale(3);
     filter: brightness(0.9);
 }
 
 body.panel-open-tl .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
+    transform: translate(calc(-50% + 52vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
 body.panel-open-tr .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
+    transform: translate(calc(-50% + 52vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
 body.panel-open-bl .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
+    transform: translate(calc(-50% + 52vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
 body.panel-open-br .experience
 {
-    transform: translate(calc(-50% + 68vw), calc(-50% + 12vh)) scale(3);
+    transform: translate(calc(-50% + 52vw), calc(-50% + 12vh)) scale(3);
     filter: brightness(0.9) saturate(1.05);
 }
 
@@ -630,6 +630,7 @@ body.panel-open .panel-close
     gap: 24px;
     max-height: 80vh;
     overflow-y: auto;
+    overflow-x: visible;
     scrollbar-width: none;
     -ms-overflow-style: none;
     color: #ffffff;
@@ -684,6 +685,154 @@ body.panel-open .panel-close
     font-size: clamp(13px, 1.1vw, 18px);
     letter-spacing: 0.02em;
     opacity: 0.82;
+}
+
+/* ─── Software cards ────────────────────────────────────────────── */
+
+:root
+{
+    --sw-card-h: 340px;
+    --sw-gap:     36px;
+    --sw-peek:    calc(var(--sw-card-h) * 0.25);
+    /* outer wrapper height: 1 full card + peek top & bottom + gaps */
+    --sw-viewport-h: calc(var(--sw-card-h) + var(--sw-peek) * 2 + var(--sw-gap) * 2);
+}
+
+/* outer wrapper — holds the fades, positioned outside the scroll container */
+.sw-wrap
+{
+    position: relative;
+    height: var(--sw-viewport-h);
+    margin-left: 0;
+    width: 88%;
+    z-index: 5;
+}
+
+/* fades live on the wrapper so they don't scroll */
+.sw-wrap::before,
+.sw-wrap::after
+{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: calc(var(--sw-peek) + var(--sw-gap) + 10px);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.sw-wrap::before
+{
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 30%, transparent);
+}
+
+.sw-wrap::after
+{
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,1) 30%, transparent);
+}
+
+/* scroll container — direction:rtl moves scrollbar to the left */
+.sw-viewport
+{
+    height: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    direction: rtl;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.55) transparent;
+}
+
+.sw-viewport::-webkit-scrollbar
+{
+    width: 4px;
+}
+
+.sw-viewport::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+
+.sw-viewport::-webkit-scrollbar-thumb
+{
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 2px;
+}
+
+.sw-viewport::-webkit-scrollbar-thumb:hover
+{
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* reset content direction so text stays left-to-right */
+.sw-track
+{
+    direction: ltr;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sw-gap);
+    /* padding lets first & last cards snap to centre; left indent clears scrollbar */
+    padding: calc(var(--sw-peek) + var(--sw-gap)) 0 calc(var(--sw-peek) + var(--sw-gap)) 220px;
+}
+
+/* default card — slightly dimmed & smaller */
+.sw-card
+{
+    flex-shrink: 0;
+    height: var(--sw-card-h);
+    width: 100%;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 18px;
+    background: transparent;
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.12),
+        0 0 32px rgba(100, 160, 255, 0.14);
+    transition:
+        transform    0.12s ease,
+        opacity      0.12s ease,
+        border-color 0.25s ease,
+        box-shadow   0.25s ease,
+        background   0.25s ease;
+    cursor: default;
+}
+
+/* active (snapped) card — full size with glow */
+.sw-card.is-active
+{
+    transform: scale(1);
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.85);
+    background: transparent;
+    box-shadow:
+        0 0 16px rgba(255, 255, 255, 0.35),
+        0 0 48px rgba(120, 180, 255, 0.40),
+        inset 0 0 28px rgba(255, 255, 255, 0.07);
+}
+
+.sw-title
+{
+    font-family: 'Ailerons', Helvetica, Arial, sans-serif;
+    font-size: clamp(18px, 1.8vw, 28px);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.93);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.sw-body
+{
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-size: clamp(14px, 1.35vw, 20px);
+    color: rgba(255, 255, 255, 0.52);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
 }
 
 /* ─── Timeline ───────────────────────────────────────────────────── */

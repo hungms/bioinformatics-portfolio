@@ -1,3 +1,82 @@
 <h2>Softwares</h2>
-<p>List your software stack, packages and workflows.</p>
-<p>Put your detailed tools content here.</p>
+
+<div class="sw-wrap">
+    <div class="sw-viewport">
+        <div class="sw-track">
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+            <div class="sw-card">
+                <div class="sw-title">Title</div>
+                <div class="sw-body">Description</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const viewport  = document.querySelector('.sw-viewport')
+    const cards     = Array.from(document.querySelectorAll('.sw-card'))
+    if (!viewport || !cards.length) return
+
+    const hovered = new Set()
+
+    cards.forEach((card) => {
+        card.addEventListener('mouseenter', () => { hovered.add(card);    update3D() })
+        card.addEventListener('mouseleave', () => { hovered.delete(card); update3D() })
+    })
+
+    const update3D = () => {
+        const vpRect     = viewport.getBoundingClientRect()
+        const vpCenterY  = vpRect.top + vpRect.height / 2
+
+        cards.forEach((card) => {
+            const rect        = card.getBoundingClientRect()
+            const cardCenterY = rect.top + rect.height / 2
+            // normalised distance: 0 = centred, ±1 = one card-height away
+            const norm    = (cardCenterY - vpCenterY) / rect.height
+            const angle   = norm * 38
+            const baseScale = 1 - Math.abs(norm) * 0.16
+            const scale   = hovered.has(card) ? baseScale * 1.25 : baseScale
+            const opacity = Math.max(0.18, 1 - Math.abs(norm) * 0.58)
+
+            card.style.transform = `perspective(700px) rotateX(${angle}deg) scale(${scale})`
+            card.style.opacity   = opacity
+
+            const isActive = Math.abs(norm) < 0.35
+            card.classList.toggle('is-active', isActive)
+        })
+    }
+
+    viewport.addEventListener('scroll', update3D, { passive: true })
+
+    // Continuous loop so hover scale applies without needing a scroll event
+    const loop = () => { update3D(); requestAnimationFrame(loop) }
+    requestAnimationFrame(loop)
+})()
+</script>
