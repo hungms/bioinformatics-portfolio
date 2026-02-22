@@ -296,6 +296,18 @@ const openExpandedCallout = async (_key) =>
         if(expandedCalloutKey === _key && pageHtml)
         {
             entry.card.innerHTML = `<div class="popup-page">${pageHtml}</div>`
+
+            // innerHTML does not execute <script> tags — re-run them manually
+            entry.card.querySelectorAll('script').forEach((oldScript) =>
+            {
+                const newScript = document.createElement('script')
+                Array.from(oldScript.attributes).forEach((attr) =>
+                {
+                    newScript.setAttribute(attr.name, attr.value)
+                })
+                newScript.textContent = oldScript.textContent
+                oldScript.parentNode.replaceChild(newScript, oldScript)
+            })
         }
     }
     catch(error)

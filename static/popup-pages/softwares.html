@@ -40,43 +40,53 @@
 
 <script>
 (function () {
-    const viewport  = document.querySelector('.sw-viewport')
-    const cards     = Array.from(document.querySelectorAll('.sw-card'))
+    const viewport = document.querySelector('.sw-viewport')
+    const cards    = Array.from(document.querySelectorAll('.sw-card'))
     if (!viewport || !cards.length) return
 
-    const hovered = new Set()
+    // Mirror the CSS constants — no DOM reads needed in the hot loop
+    const CARD_H  = 340          // --sw-card-h
+    const GAP     = 36           // --sw-gap
+    const STRIDE  = CARD_H + GAP
+    const PEEK    = CARD_H * 0.25
+    const PAD_TOP = PEEK + GAP   // track padding-top
 
+    // Scroll-space centre of card[i] — pure arithmetic, zero layout reads
+    const cardScrollCenter = (i) => PAD_TOP + i * STRIDE + CARD_H / 2
+
+    // Per-card state + promote to compositor layer
     cards.forEach((card) => {
-        card.addEventListener('mouseenter', () => { hovered.add(card);    update3D() })
-        card.addEventListener('mouseleave', () => { hovered.delete(card); update3D() })
+        card._hoverScale       = 1.0
+        card._isHovered        = false
+        card.style.willChange  = 'transform, opacity'
+        card.addEventListener('mouseenter', () => { card._isHovered = true  })
+        card.addEventListener('mouseleave', () => { card._isHovered = false })
     })
 
-    const update3D = () => {
-        const vpRect     = viewport.getBoundingClientRect()
-        const vpCenterY  = vpRect.top + vpRect.height / 2
+    const loop = () => {
+        // Only two cheap reads per frame — no reflow
+        const scrollTop = viewport.scrollTop
+        const vpH       = viewport.clientHeight
+        const vpCY      = scrollTop + vpH / 2
 
-        cards.forEach((card) => {
-            const rect        = card.getBoundingClientRect()
-            const cardCenterY = rect.top + rect.height / 2
-            // normalised distance: 0 = centred, ±1 = one card-height away
-            const norm    = (cardCenterY - vpCenterY) / rect.height
-            const angle   = norm * 38
+        cards.forEach((card, i) => {
+            const norm      = (cardScrollCenter(i) - vpCY) / CARD_H
+            const angle     = norm * 38
             const baseScale = 1 - Math.abs(norm) * 0.16
-            const scale   = hovered.has(card) ? baseScale * 1.25 : baseScale
-            const opacity = Math.max(0.18, 1 - Math.abs(norm) * 0.58)
+            const opacity   = Math.max(0.18, 1 - Math.abs(norm) * 0.58)
+
+            const hoverTarget = card._isHovered ? 1.1 : 1.0
+            card._hoverScale  = card._hoverScale + (hoverTarget - card._hoverScale) * 0.12
+            const scale       = baseScale * card._hoverScale
 
             card.style.transform = `perspective(700px) rotateX(${angle}deg) scale(${scale})`
-            card.style.opacity   = opacity
-
-            const isActive = Math.abs(norm) < 0.35
-            card.classList.toggle('is-active', isActive)
+            card.style.opacity   = String(opacity)
+            card.classList.toggle('is-active', Math.abs(norm) < 0.35)
         })
+
+        requestAnimationFrame(loop)
     }
 
-    viewport.addEventListener('scroll', update3D, { passive: true })
-
-    // Continuous loop so hover scale applies without needing a scroll event
-    const loop = () => { update3D(); requestAnimationFrame(loop) }
     requestAnimationFrame(loop)
 })()
 </script>
