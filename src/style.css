@@ -862,7 +862,7 @@ body.panel-open .panel-close
     padding: 20px 20px;
     border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 18px;
-    background: transparent;
+    background: #000000;
     will-change: transform, opacity;
     box-shadow:
         0 0 12px rgba(255, 255, 255, 0.12),
@@ -880,7 +880,7 @@ body.panel-open .panel-close
     transform: scale(1);
     opacity: 1;
     border-color: rgba(255, 255, 255, 0.85);
-    background: transparent;
+    background: #000000;
     box-shadow:
         0 0 16px rgba(255, 255, 255, 0.35),
         0 0 48px rgba(120, 180, 255, 0.40),
@@ -1331,6 +1331,30 @@ body.is-loaded .ab-widget
     width: 70px;
     height: 80px;
     filter: drop-shadow(0 0 8px rgba(180, 160, 255, 0.5));
+}
+
+/* ─── Antibody trails ─────────────────────────────────────────── */
+
+#trail-back-canvas,
+#trail-front-canvas
+{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#trail-back-canvas  { z-index: 1; } /* behind sphere (z-index 2) */
+#trail-front-canvas { z-index: 3; } /* in front of sphere, behind panel (z-index 12) */
+
+body.panel-open #trail-back-canvas,
+body.panel-open #trail-front-canvas
+{
+    opacity: 1;
+    transition: opacity 0.8s ease 0.3s;
 }
 
 .ab-name
