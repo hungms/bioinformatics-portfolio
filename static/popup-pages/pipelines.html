@@ -3,39 +3,45 @@
 <div class="sw-wrap">
     <div class="sw-viewport">
         <div class="sw-track">
-
             <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
+                <div class="sw-title">Bulk Sequencing</div>
+                <div class="sw-body">RNA-seq, ATAC-seq, ChIP-seq, LC-MS/MS</div>
+                <a href="https://github.com/hungms/bulk-pipeline">>> Click to View Code</a>
+            </div>
+            
+            <div class="sw-card">
+                <div class="sw-title">Single Cell Sequencing</div>
+                <div class="sw-body">RNA-seq, VDJ-seq, CITE-seq</div>
+                <a href="https://github.com/hungms/bulk-pipeline">>> Click to View Code</a>
             </div>
 
             <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
+                <div class="sw-title">Spatial Sequencing</div>
+                <div class="sw-body">Visium, Xenium, GeoMx, CosMx, Slide-seq</div>
+                <a href="https://github.com/hungms/bulk-pipeline">>> Click to View Code</a>
             </div>
 
             <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
+                <div class="sw-title">Amplicon Sequencing</div>
+                <div class="sw-body">JH4</div>
+                <a href="https://github.com/hungms/bulk-pipeline">>> Click to View Code</a>
             </div>
 
             <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
-            </div>
-
-            <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
-            </div>
-
-            <div class="sw-card">
-                <div class="sw-title">Title</div>
-                <div class="sw-body">Description</div>
+                <div class="sw-title">High Dimensional Cytometry</div>
+                <div class="sw-body"></div>
+                <a href="https://github.com/hungms/bulk-pipeline">>> Click to View Code</a>
             </div>
 
         </div>
     </div>
+</div>
+
+<div class="sw-scroll-hint" aria-hidden="true">
+    <span class="sw-scroll-hint-text">Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
 </div>
 
 <script>
@@ -53,6 +59,14 @@
 
     // Scroll-space centre of card[i] — pure arithmetic, zero layout reads
     const cardScrollCenter = (i) => PAD_TOP + i * STRIDE + CARD_H / 2
+
+    // Scroll hint — hide once user scrolls the cards
+    const hint = document.querySelector('.sw-scroll-hint')
+    if (hint) {
+        viewport.addEventListener('scroll', () => {
+            if (viewport.scrollTop > 10) hint.classList.add('sw-hint-hidden')
+        }, { passive: true })
+    }
 
     // Per-card state + promote to compositor layer
     cards.forEach((card) => {
