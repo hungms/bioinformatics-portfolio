@@ -773,7 +773,7 @@ body.panel-open .panel-close
     flex-direction: column;
     gap: var(--sw-gap);
     /* padding lets first & last cards snap to centre; left indent clears scrollbar */
-    padding: calc(var(--sw-peek) + var(--sw-gap)) 0 calc(var(--sw-peek) + var(--sw-gap)) 220px;
+    padding: calc(var(--sw-peek) + var(--sw-gap)) 0 calc(var(--sw-peek) + var(--sw-gap)) 120px;
 }
 
 /* default card — slightly dimmed & smaller */
@@ -781,7 +781,7 @@ body.panel-open .panel-close
 {
     flex-shrink: 0;
     height: var(--sw-card-h);
-    width: 100%;
+    width: 80%;
     scroll-snap-align: center;
     display: flex;
     flex-direction: column;
