@@ -6,6 +6,15 @@ const experience = new Experience({
     targetElement: document.querySelector('.experience')
 })
 
+// Scroll-driven sphere spin (supports vertical, horizontal & diagonal trackpad)
+experience.scrollVelocityY = 0
+experience.scrollVelocityX = 0
+window.addEventListener('wheel', (_e) =>
+{
+    experience.scrollVelocityY += _e.deltaY * -0.0001
+    experience.scrollVelocityX += _e.deltaX * 0.0001
+}, { passive: true })
+
 const loaderCircle = document.querySelector('.loader-circle')
 const loaderPercent = document.querySelector('.loader-percent')
 const ukTimeEl = document.querySelector('.uk-time')
@@ -98,10 +107,10 @@ const calloutMap = {
 const calloutRevealOrder = ['tl', 'tr', 'br', 'bl']
 const expandableCalloutKeys = ['tl', 'tr', 'bl', 'br']
 const popupPageByKey = {
-    tl: '/popup-pages/tl.html',
-    tr: '/popup-pages/tr.html',
-    bl: '/popup-pages/bl.html',
-    br: '/popup-pages/br.html'
+    tl: '/popup-pages/profile.html',
+    tr: '/popup-pages/softwares.html',
+    bl: '/popup-pages/pipelines.html',
+    br: '/popup-pages/projects.html'
 }
 const popupPageCache = {}
 let expandedCalloutKey = null

@@ -338,6 +338,24 @@ export default class Sphere
 
         this.material.uniforms.uOffset.value.add(this.offset.direction)
 
+        // Scroll-driven spin: vertical scroll → Y offset, horizontal scroll → X offset
+        const svy = this.experience.scrollVelocityY || 0
+        const svx = this.experience.scrollVelocityX || 0
+
+        if(svy !== 0)
+        {
+            this.material.uniforms.uOffset.value.y += svy
+            this.experience.scrollVelocityY *= 0.88
+            if(Math.abs(this.experience.scrollVelocityY) < 1e-7) this.experience.scrollVelocityY = 0
+        }
+
+        if(svx !== 0)
+        {
+            this.material.uniforms.uOffset.value.x += svx
+            this.experience.scrollVelocityX *= 0.88
+            if(Math.abs(this.experience.scrollVelocityX) < 1e-7) this.experience.scrollVelocityX = 0
+        }
+
         // Time
         this.material.uniforms.uTime.value += this.elapsedTime
     }
