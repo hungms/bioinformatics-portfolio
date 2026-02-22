@@ -358,6 +358,7 @@ document.querySelectorAll('.side-menu [data-menu]').forEach((_btn) =>
     {
         const key = menuKeyMap[_btn.dataset.menu] || _btn.dataset.menu
         void openExpandedCallout(key)
+        _btn.blur()
     })
 })
 

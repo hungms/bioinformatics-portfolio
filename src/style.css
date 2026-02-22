@@ -1163,12 +1163,16 @@ body.panel-open .side-menu
     line-height: 1;
 }
 
-.side-menu button:hover,
-.side-menu button:focus-visible
+.side-menu button:hover
 {
     color: #ffffff;
     text-shadow: 0 0 14px rgba(255, 255, 255, 0.65);
     letter-spacing: 0.14em;
+    outline: none;
+}
+
+.side-menu button:focus-visible
+{
     outline: none;
 }
 
