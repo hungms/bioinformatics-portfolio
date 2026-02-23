@@ -1,3 +1,3 @@
 # bioinformatics-portfolio
 
-https://hungms.io.git
+https://hungms.github.io/bioinformatics-portfolio/
