@@ -37,107 +37,11 @@
     <canvas id="trail-back-canvas"  aria-hidden="true"></canvas>
     <div class="experience"></div>
     <canvas id="trail-front-canvas" aria-hidden="true"></canvas>
-    <svg class="callout-lines" aria-hidden="true">
-        <line data-line="tl"></line>
-        <line data-line="tr"></line>
-        <line data-line="bl"></line>
-        <line data-line="br"></line>
-        <circle data-node="tl" r="3"></circle>
-        <circle data-node="tr" r="3"></circle>
-        <circle data-node="bl" r="3"></circle>
-        <circle data-node="br" r="3"></circle>
-    </svg>
     <div class="callouts">
         <div class="callout callout-tl" data-callout="tl" role="button" tabindex="0">Profile</div>
         <div class="callout callout-tr" data-callout="tr" role="button" tabindex="0">Softwares</div>
         <div class="callout callout-bl" data-callout="bl" role="button" tabindex="0">Pipelines</div>
         <div class="callout callout-br" data-callout="br" role="button" tabindex="0">Projects</div>
-    </div>
-    <div class="target-locks" aria-hidden="true">
-        <div class="target-lock target-lock-cw" data-lock="tl">
-            <svg viewBox="0 0 100 100">
-                <g class="lock-rotor lock-rotor-a">
-                    <path d="M50 8 A42 42 0 0 1 79 21" />
-                    <path d="M92 50 A42 42 0 0 1 79 79" />
-                    <path d="M50 92 A42 42 0 0 1 21 79" />
-                    <path d="M8 50 A42 42 0 0 1 21 21" />
-                </g>
-                <g class="lock-rotor lock-rotor-b">
-                    <path d="M50 18 A32 32 0 0 1 72 28" />
-                    <path d="M82 50 A32 32 0 0 1 72 72" />
-                    <path d="M50 82 A32 32 0 0 1 28 72" />
-                    <path d="M18 50 A32 32 0 0 1 28 28" />
-                </g>
-                <circle class="lock-core" cx="50" cy="50" r="8" />
-                <line class="lock-cross" x1="50" y1="30" x2="50" y2="42" />
-                <line class="lock-cross" x1="50" y1="58" x2="50" y2="70" />
-                <line class="lock-cross" x1="30" y1="50" x2="42" y2="50" />
-                <line class="lock-cross" x1="58" y1="50" x2="70" y2="50" />
-            </svg>
-        </div>
-        <div class="target-lock target-lock-ccw" data-lock="tr">
-            <svg viewBox="0 0 100 100">
-                <g class="lock-rotor lock-rotor-a">
-                    <path d="M50 8 A42 42 0 0 1 79 21" />
-                    <path d="M92 50 A42 42 0 0 1 79 79" />
-                    <path d="M50 92 A42 42 0 0 1 21 79" />
-                    <path d="M8 50 A42 42 0 0 1 21 21" />
-                </g>
-                <g class="lock-rotor lock-rotor-b">
-                    <path d="M50 18 A32 32 0 0 1 72 28" />
-                    <path d="M82 50 A32 32 0 0 1 72 72" />
-                    <path d="M50 82 A32 32 0 0 1 28 72" />
-                    <path d="M18 50 A32 32 0 0 1 28 28" />
-                </g>
-                <circle class="lock-core" cx="50" cy="50" r="8" />
-                <line class="lock-cross" x1="50" y1="30" x2="50" y2="42" />
-                <line class="lock-cross" x1="50" y1="58" x2="50" y2="70" />
-                <line class="lock-cross" x1="30" y1="50" x2="42" y2="50" />
-                <line class="lock-cross" x1="58" y1="50" x2="70" y2="50" />
-            </svg>
-        </div>
-        <div class="target-lock target-lock-cw" data-lock="bl">
-            <svg viewBox="0 0 100 100">
-                <g class="lock-rotor lock-rotor-a">
-                    <path d="M50 8 A42 42 0 0 1 79 21" />
-                    <path d="M92 50 A42 42 0 0 1 79 79" />
-                    <path d="M50 92 A42 42 0 0 1 21 79" />
-                    <path d="M8 50 A42 42 0 0 1 21 21" />
-                </g>
-                <g class="lock-rotor lock-rotor-b">
-                    <path d="M50 18 A32 32 0 0 1 72 28" />
-                    <path d="M82 50 A32 32 0 0 1 72 72" />
-                    <path d="M50 82 A32 32 0 0 1 28 72" />
-                    <path d="M18 50 A32 32 0 0 1 28 28" />
-                </g>
-                <circle class="lock-core" cx="50" cy="50" r="8" />
-                <line class="lock-cross" x1="50" y1="30" x2="50" y2="42" />
-                <line class="lock-cross" x1="50" y1="58" x2="50" y2="70" />
-                <line class="lock-cross" x1="30" y1="50" x2="42" y2="50" />
-                <line class="lock-cross" x1="58" y1="50" x2="70" y2="50" />
-            </svg>
-        </div>
-        <div class="target-lock target-lock-ccw" data-lock="br">
-            <svg viewBox="0 0 100 100">
-                <g class="lock-rotor lock-rotor-a">
-                    <path d="M50 8 A42 42 0 0 1 79 21" />
-                    <path d="M92 50 A42 42 0 0 1 79 79" />
-                    <path d="M50 92 A42 42 0 0 1 21 79" />
-                    <path d="M8 50 A42 42 0 0 1 21 21" />
-                </g>
-                <g class="lock-rotor lock-rotor-b">
-                    <path d="M50 18 A32 32 0 0 1 72 28" />
-                    <path d="M82 50 A32 32 0 0 1 72 72" />
-                    <path d="M50 82 A32 32 0 0 1 28 72" />
-                    <path d="M18 50 A32 32 0 0 1 28 28" />
-                </g>
-                <circle class="lock-core" cx="50" cy="50" r="8" />
-                <line class="lock-cross" x1="50" y1="30" x2="50" y2="42" />
-                <line class="lock-cross" x1="50" y1="58" x2="50" y2="70" />
-                <line class="lock-cross" x1="30" y1="50" x2="42" y2="50" />
-                <line class="lock-cross" x1="58" y1="50" x2="70" y2="50" />
-            </svg>
-        </div>
     </div>
     <button class="panel-close" aria-label="Close panel"><span class="panel-close-icon">&#10005;</span><span class="panel-close-label">Exit</span></button>
     <div class="uk-time" aria-live="polite" aria-label="Current UK time">

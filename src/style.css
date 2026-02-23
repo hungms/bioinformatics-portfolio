@@ -31,12 +31,6 @@ body
     transition: background 0.6s ease;
 }
 
-:root
-{
-    --hero-shift-up: 8vmin;
-    --panel-purple-a: #6c4cd6;
-    --panel-purple-b: #563fb6;
-}
 
 .experience
 {
@@ -136,6 +130,12 @@ body.panel-open
 
 .credits
 {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: #ffffff;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
     opacity: 0;
     transition: opacity 0.45s ease;
 }
@@ -163,16 +163,6 @@ body.is-loaded .loader
     {
         transform: scale(1.04);
     }
-}
-
-.credits
-{
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: #ffffff;
-    text-align: right;
-    font-family: 'Roboto', sans-serif;
 }
 
 .credits a
@@ -228,13 +218,6 @@ body.panel-open .uk-time
     position: fixed;
     inset: 0;
     z-index: 3;
-    pointer-events: none;
-}
-
-body.panel-open .callout-lines,
-body.panel-open .target-locks
-{
-    opacity: 0;
     pointer-events: none;
 }
 
@@ -330,30 +313,6 @@ body.panel-open .callout.is-expanded
 }
 
 
-.popup-page h2
-{
-    margin: 0 0 22px;
-    font-size: clamp(34px, 3.5vw, 48px);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.popup-page p
-{
-    margin: 0 0 14px;
-    font-size: clamp(18px, 1.5vw, 28px);
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.5;
-    text-transform: none;
-    letter-spacing: 0.02em;
-}
-
-.popup-page-loading
-{
-    font-size: clamp(20px, 2vw, 30px);
-    opacity: 0.9;
-}
-
 .popup-page a
 {
     color: rgba(255, 255, 255, 0.85);
@@ -373,127 +332,6 @@ body.panel-open .callout.is-expanded
 .callout-bl { bottom: 14vh; left: 9vw; animation-delay: -1.45s; }
 .callout-br { bottom: 14vh; right: 9vw; animation-delay: -1.9s; }
 
-.callout-lines
-{
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.callout-lines line
-{
-    stroke: rgba(255, 255, 255, 0.92);
-    stroke-width: 1.25;
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-    opacity: 0;
-    transition: opacity 0.7s ease;
-}
-
-.callout-lines circle
-{
-    fill: rgba(255, 255, 255, 0.96);
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.72));
-    opacity: 0;
-    transform: scale(0.25);
-    transform-box: fill-box;
-    transform-origin: center;
-    transition: opacity 0.7s ease;
-}
-
-.callout-lines .is-visible
-{
-    opacity: 1;
-}
-
-.callout-lines circle.is-visible
-{
-    animation: calloutNodeReveal 0.7s ease forwards, calloutNodePulse 1.8s ease-in-out infinite 0.7s;
-}
-
-.target-locks
-{
-    position: fixed;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-}
-
-.target-lock
-{
-    position: fixed;
-    width: 64px;
-    height: 64px;
-    transform: translate(-50%, -50%);
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.85)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.55));
-    opacity: 0;
-    transition: opacity 0.7s ease;
-}
-
-.target-lock.is-visible
-{
-    opacity: 1;
-}
-
-.target-lock svg
-{
-    width: 100%;
-    height: 100%;
-}
-
-.target-lock .lock-rotor
-{
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.95);
-    stroke-width: 3;
-    stroke-linecap: round;
-}
-
-.target-lock .lock-core
-{
-    fill: rgba(255, 255, 255, 0.1);
-    stroke: rgba(255, 255, 255, 0.96);
-    stroke-width: 2;
-}
-
-.target-lock .lock-cross
-{
-    stroke: rgba(255, 255, 255, 0.96);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-}
-
-.target-lock-cw .lock-rotor-a
-{
-    animation: lockSpinCW 5.5s linear infinite;
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-}
-
-.target-lock-cw .lock-rotor-b
-{
-    animation: lockSpinCCW 3.6s linear infinite;
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-}
-
-.target-lock-ccw .lock-rotor-a
-{
-    animation: lockSpinCCW 5.5s linear infinite;
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-}
-
-.target-lock-ccw .lock-rotor-b
-{
-    animation: lockSpinCW 3.6s linear infinite;
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-}
-
 @keyframes calloutJitter
 {
     0%,
@@ -512,38 +350,6 @@ body.panel-open .callout.is-expanded
     75%
     {
         transform: translateY(-1px) scale(var(--callout-scale));
-    }
-}
-
-@keyframes calloutNodePulse
-{
-    0%,
-    100%
-    {
-        opacity: 0.88;
-    }
-    50%
-    {
-        opacity: 1;
-    }
-}
-
-@keyframes calloutNodeReveal
-{
-    0%
-    {
-        opacity: 0;
-        transform: scale(0.25);
-    }
-    60%
-    {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-    100%
-    {
-        opacity: 1;
-        transform: scale(1);
     }
 }
 
@@ -568,18 +374,6 @@ body.panel-open .callout.is-expanded
         padding: 10vh 5vw 10vh 6vw;
         background: linear-gradient(to right, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.82) 20%, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.10) 100%);
     }
-}
-
-@keyframes lockSpinCW
-{
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes lockSpinCCW
-{
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
 }
 
 /* ─── Panel close button ─────────────────────────────────── */
@@ -745,11 +539,11 @@ body.panel-open .panel-close
 
 :root
 {
-    --sw-card-h: 340px;
-    --sw-gap:     36px;
-    --sw-peek:    calc(var(--sw-card-h) * 0.25);
+    --sw-card-h:      340px;
+    --sw-gap:          36px;
+    --sw-peek:         calc(var(--sw-card-h) * 0.25);
     /* outer wrapper height: 1 full card + peek top & bottom + gaps */
-    --sw-viewport-h: calc(var(--sw-card-h) + var(--sw-peek) * 2 + var(--sw-gap) * 2);
+    --sw-viewport-h:   calc(var(--sw-card-h) + var(--sw-peek) * 2 + var(--sw-gap) * 2);
 }
 
 /* outer wrapper — holds the fades, positioned outside the scroll container */
@@ -1379,9 +1173,7 @@ body.panel-open .side-menu
 
 /* ─── Hide corner callouts / lines / locks (replaced by side menu) ── */
 
-.callouts,
-.callout-lines,
-.target-locks
+.callouts
 {
     display: none;
 }
