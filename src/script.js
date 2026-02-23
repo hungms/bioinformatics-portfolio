@@ -57,10 +57,10 @@ const calloutMap = {
 const calloutRevealOrder = ['tl', 'tr', 'br', 'bl']
 const expandableCalloutKeys = ['tl', 'tr', 'bl', 'br']
 const popupPageByKey = {
-    tl: '/popup-pages/profile.html',
-    tr: '/popup-pages/softwares.html',
-    bl: '/popup-pages/pipelines.html',
-    br: '/popup-pages/projects.html'
+    tl: 'popup-pages/profile.html',
+    tr: 'popup-pages/softwares.html',
+    bl: 'popup-pages/pipelines.html',
+    br: 'popup-pages/projects.html'
 }
 const popupPageCache = {}
 let expandedCalloutKey = null

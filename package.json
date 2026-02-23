@@ -6,7 +6,8 @@
   },
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js"
+    "dev": "webpack serve --config ./bundler/webpack.dev.js",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@babel/core": "^7.15.5",
@@ -30,5 +31,8 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.1",
     "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
