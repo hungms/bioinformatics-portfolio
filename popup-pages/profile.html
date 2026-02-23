@@ -1,0 +1,99 @@
+<h2>Profile</h2>
+
+<div class="tl-wrap">
+<div class="timeline">
+
+    <div class="tl-item">
+        <div class="tl-marker">
+            <span class="tl-year">2018</span>
+            <span class="tl-dot"></span>
+        </div>
+        <div class="tl-content">
+            <div class="tl-role">BSc Medical Biosciences</div>
+            <div class="tl-org">3 yr · Imperial College London, London</div>
+            <ul class="tl-desc">
+                <li>Investigating the role of KLF2 on endothelial dysfunction in pulmonary arterial hypertension.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tl-item">
+        <div class="tl-marker">
+            <span class="tl-year">2021</span>
+            <span class="tl-dot"></span>
+        </div>
+        <div class="tl-content">
+            <div class="tl-role">MRes Translational Cancer Medicine</div>
+            <div class="tl-org">1 yr · King's College London, London</div>
+            <ul class="tl-desc">
+                <li>Investigated the immune crosstalks of Treg and Tfh during lymph node metastasis of breast cancers.</li>
+                <li>Characterised Treg subsets under hypoxia and inflammation in aplastic anaemia.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tl-item">
+        <div class="tl-marker">
+            <span class="tl-year">2022</span>
+            <span class="tl-dot"></span>
+        </div>
+        <div class="tl-content">
+            <div class="tl-role">Bioinformatics Research Assistant</div>
+            <div class="tl-org">5 mo · King's College London, London</div>
+            <ul class="tl-desc">
+                <li>Unravel the role of plasma cells in triple-negative breast cancer lymph node metastasis.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tl-item">
+        <div class="tl-marker">
+            <span class="tl-year">2023</span>
+            <span class="tl-dot"></span>
+        </div>
+        <div class="tl-content">
+            <div class="tl-role">Bioinformatician</div>
+            <div class="tl-org">2 yr 3 mo · The Francis Crick Institute, London</div>
+            <ul class="tl-desc">
+                <li>Characterize the importance of plasma cell longevity in infections and myeloma development.</li>
+                <li>Study germinal centre regulation and B-cell crosstalks in progression of Non-Hodgkin's Lymphoma.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tl-item">
+        <div class="tl-marker">
+            <span class="tl-year">2025</span>
+            <span class="tl-dot"></span>
+        </div>
+        <div class="tl-content">
+            <div class="tl-role">PhD Candidate</div>
+            <div class="tl-org">4 mo · The Francis Crick Institute, London</div>
+            <ul class="tl-desc">
+                <li>Multimodal characterization of progenitor B cells and their contribution to myeloma persistance.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- scroll indicator (sticky to bottom of visible timeline) -->
+    <div class="sw-scroll-hint tl-scroll-hint" aria-hidden="true">
+        <span class="sw-scroll-hint-text">Scroll</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </div>
+
+</div>
+</div>
+
+<script>
+(function () {
+    const wrap = document.querySelector('.tl-wrap')
+    const hint = document.querySelector('.tl-scroll-hint')
+    if (!wrap || !hint) return
+    wrap.addEventListener('scroll', function () {
+        if (wrap.scrollTop > 20) hint.classList.add('sw-hint-hidden')
+        else hint.classList.remove('sw-hint-hidden')
+    }, { passive: true })
+})()
+</script>
